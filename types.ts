@@ -3,3 +3,8 @@ export type TokenResponse = {
   msg: string;
   token: string;
 };
+
+export type TaskResponse = {
+  code: number;
+  msg: string;
+};
