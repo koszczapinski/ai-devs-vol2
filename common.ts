@@ -1,23 +1,32 @@
 import axios from "./axiosInterceptor";
 import { OPENAI_MODERTATIONS_API_ENDPOINT } from "./consts";
+import { TokenResponse } from "./types";
 
 export async function getToken(taskname: string): Promise<string> {
-  const { data } = await axios.post<TokenResponse>(
-    `${process.env.AI_DEVS_API_BASE_URL}/token/${taskname}`,
-    {
-      apikey: process.env.AI_DEVS_API_KEY,
-    }
-  );
-
-  return data.token === undefined ? "" : data.token;
+  try {
+    const { data } = await axios.post<TokenResponse>(
+      `${process.env.AI_DEVS_API_BASE_URL}/token/${taskname}`,
+      {
+        apikey: process.env.AI_DEVS_API_KEY,
+      }
+    );
+    return data.token;
+  } catch (error) {
+    console.error(error);
+  }
+  return "";
 }
 
-export async function getTask(token: string): Promise<TaskResponse> {
-  const response = await axios.get<TaskResponse>(
-    `${process.env.AI_DEVS_API_BASE_URL}/task/${token}`
-  );
-
-  return response.data;
+export async function getTask<T>(token: string): Promise<T> {
+  try {
+    const { data } = await axios.get<T>(
+      `${process.env.AI_DEVS_API_BASE_URL}/task/${token}`
+    );
+    return data;
+  } catch (error) {
+    console.error(error);
+  }
+  return {} as T;
 }
 
 export async function sendAnswer(token: string, answer: unknown) {
