@@ -4,9 +4,12 @@ import {
   getToken,
   sendAnswer,
 } from "../common";
+import { TaskResponse } from "../types";
 
 const token = await getToken("moderation");
-const { input: sentences } = await getTask(token);
+const { input: sentences } = await getTask<TaskResponse & { input: string[] }>(
+  token
+);
 
 const moderatedSentences: number[] = [];
 
