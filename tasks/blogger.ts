@@ -8,7 +8,9 @@ const { blog } = await getTask<TaskResponse & { blog: string[] }>(token);
 const sectionsContent: string[] = [];
 
 for (const title of blog) {
-  const test = await openAICompletion(title, BLOGGER_SYSTEM_PROMPT);
+  const test = await openAICompletion(title, BLOGGER_SYSTEM_PROMPT, {
+    model: "gpt-4",
+  });
   sectionsContent.push(test.choices[0].message.content);
 }
 
