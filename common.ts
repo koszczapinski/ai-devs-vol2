@@ -1,5 +1,8 @@
 import axios from "./axiosInterceptor";
-import { OPENAI_MODERTATIONS_API_ENDPOINT } from "./consts";
+import {
+  OPENAI_COMPLETIONS_API_ENDPOINT,
+  OPENAI_MODERTATIONS_API_ENDPOINT,
+} from "./consts";
 import { TokenResponse } from "./types";
 
 export async function getToken(taskname: string): Promise<string> {
@@ -47,10 +50,45 @@ const headers = {
 };
 
 export async function getOpenAIModerationAPIResponse(input: string) {
-  const { data } = await axios.post(
-    OPENAI_MODERTATIONS_API_ENDPOINT,
-    { input },
-    { headers }
-  );
-  return data;
+  try {
+    const { data } = await axios.post(
+      OPENAI_MODERTATIONS_API_ENDPOINT,
+      { input },
+      { headers }
+    );
+    return data;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+export async function openAICompletion(
+  userMessage: string,
+  systemPrompt: string = "Act as helpfull assistant",
+  options?: {
+    model?: "gpt-3.5-turbo" | "gpt-4";
+    maxTokens?: number;
+    temperature?: number;
+  }
+) {
+  try {
+    const { data } = await axios.post(
+      OPENAI_COMPLETIONS_API_ENDPOINT,
+      {
+        model: options?.model ?? "gpt-3.5-turbo",
+        max_tokens: options?.maxTokens ?? 500,
+        temperature: options?.temperature ?? 0.5,
+        messages: [
+          { role: "system", content: systemPrompt },
+          { role: "user", content: userMessage },
+        ],
+        stream: false,
+        stop: ["#-#"],
+      },
+      { headers }
+    );
+    return data;
+  } catch (error) {
+    console.error(error);
+  }
 }
