@@ -3,7 +3,7 @@ import {
   OPENAI_COMPLETIONS_API_ENDPOINT,
   OPENAI_MODERTATIONS_API_ENDPOINT,
 } from "./consts";
-import { TokenResponse } from "./types";
+import { TaskResponse, TokenResponse } from "./types";
 
 export async function getToken(taskname: string): Promise<string> {
   try {
@@ -30,6 +30,25 @@ export async function getTask<T>(token: string): Promise<T> {
     console.error(error);
   }
   return {} as T;
+}
+
+export async function getTaskQuestionAnswer(
+  token: string,
+  question: string
+): Promise<string> {
+  const formData = new FormData();
+  formData.append("question", String(question));
+
+  try {
+    const { data } = await axios.post<TaskResponse & { answer: string }>(
+      `${process.env.AI_DEVS_API_BASE_URL}/task/${token}`,
+      formData
+    );
+    return data.answer;
+  } catch (error) {
+    console.error(error);
+  }
+  return "";
 }
 
 export async function sendAnswer(token: string, answer: unknown) {
