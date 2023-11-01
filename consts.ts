@@ -12,3 +12,6 @@ export const LIAR_TASK_GUARDRAILS_SYSTEM_PROMPT = `You will check if the answer 
 Question: ${LIAR_TASK_USER_QUESTION}
 ###
   `;
+
+export const INPROMPT_TASK_SYSTEM_PROMPT =
+  "Zwróć tylko imię osoby której dotyczy zadane pytanie i nic więcej.";
