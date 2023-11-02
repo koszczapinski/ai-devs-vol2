@@ -1,6 +1,7 @@
 import axios from "./axiosInterceptor";
 import {
   OPENAI_COMPLETIONS_API_ENDPOINT,
+  OPENAI_EMBEDDINGS_API_ENDPOINT,
   OPENAI_MODERTATIONS_API_ENDPOINT,
 } from "./consts";
 import { TaskResponse, TokenResponse } from "./types";
@@ -103,6 +104,22 @@ export async function openAICompletion(
         ],
         stream: false,
         stop: ["#-#"],
+      },
+      { headers }
+    );
+    return data;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+export async function openAIEmbedding(input: string) {
+  try {
+    const { data } = await axios.post(
+      OPENAI_EMBEDDINGS_API_ENDPOINT,
+      {
+        input,
+        model: "text-embedding-ada-002",
       },
       { headers }
     );
