@@ -131,25 +131,19 @@ export async function openAIEmbedding(input: string) {
   }
 }
 
-export async function openAITranscription(fileName: string) {
-  //const formData = new FormData();
-  //formData.append("question", String(question));
+export async function openAITranscription(fileName: string): Promise<string> {
   const formData = new FormData();
-  const file = Bun.file(fileName);
-
-
-  formData.append("file", file);
+  formData.append("file", Bun.file(fileName));
   formData.append("model", 'whisper-1');
-
-  console.log(formData);
   try {
     const { data } = await axios.post(
       OPENAI_TRANSCRIPTIONS_API_ENDPOINT,
       formData,
       { headers }
     );
-    return data;
+    return data.text;
   } catch (error) {
     console.error(error);
   }
+  return "";
 }

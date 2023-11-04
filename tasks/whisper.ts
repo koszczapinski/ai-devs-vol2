@@ -1,5 +1,5 @@
 import { unlink } from "node:fs/promises";
-import { getTask, getToken, openAIEmbedding, openAITranscription, sendAnswer } from "../common";
+import { getTask, getToken, openAITranscription, sendAnswer } from "../common";
 import { TaskResponse } from "../types";
 
 const DOWNLOADED_FILE_NAME = "file-for-transcription.mp3";
@@ -19,8 +19,6 @@ console.log(fileUrl);
 const response = await fetch(fileUrl);
 await Bun.write(DOWNLOADED_FILE_NAME, response);
 
-const { text } = await openAITranscription(DOWNLOADED_FILE_NAME);
+const transcription = await openAITranscription(DOWNLOADED_FILE_NAME);
 
-console.log(text);
-
-await sendAnswer(token, text);
+await sendAnswer(token, transcription);
