@@ -1,5 +1,5 @@
 import { unlink } from "node:fs/promises";
-import { getTask, getToken, openAIEmbedding, sendAnswer } from "../common";
+import { getTask, getToken, openAIEmbedding, openAITranscription, sendAnswer } from "../common";
 import { TaskResponse } from "../types";
 
 const DOWNLOADED_FILE_NAME = "file-for-transcription.mp3";
@@ -19,12 +19,8 @@ console.log(fileUrl);
 const response = await fetch(fileUrl);
 await Bun.write(DOWNLOADED_FILE_NAME, response);
 
-// send file via axios post to endpoint
-const { data } = await axios.post("https://api.openai.com/v1/files", {
-    purpose: "search",
-        file: Bun.file(DOWNLOADED_FILE_NAME),
-    });
+const { text } = await openAITranscription(DOWNLOADED_FILE_NAME);
 
-//const { data } = await openAIEmbedding("Hawaiian pizza");
+console.log(text);
 
-//await sendAnswer(token, data[0].embedding);
+await sendAnswer(token, text);

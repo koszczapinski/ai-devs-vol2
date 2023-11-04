@@ -3,6 +3,7 @@ import {
   OPENAI_COMPLETIONS_API_ENDPOINT,
   OPENAI_EMBEDDINGS_API_ENDPOINT,
   OPENAI_MODERTATIONS_API_ENDPOINT,
+  OPENAI_TRANSCRIPTIONS_API_ENDPOINT,
 } from "./consts";
 import { TaskResponse, TokenResponse } from "./types";
 
@@ -65,7 +66,8 @@ export async function sendAnswer(token: string, answer: unknown) {
 }
 
 const headers = {
-  "Content-Type": "application/json",
+  //"Content-Type": "application/json",
+  "Content-Type": "multipart/form-data",
   Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
 };
 
@@ -121,6 +123,29 @@ export async function openAIEmbedding(input: string) {
         input,
         model: "text-embedding-ada-002",
       },
+      { headers }
+    );
+    return data;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+export async function openAITranscription(fileName: string) {
+  //const formData = new FormData();
+  //formData.append("question", String(question));
+  const formData = new FormData();
+  const file = Bun.file(fileName);
+
+
+  formData.append("file", file);
+  formData.append("model", 'whisper-1');
+
+  console.log(formData);
+  try {
+    const { data } = await axios.post(
+      OPENAI_TRANSCRIPTIONS_API_ENDPOINT,
+      formData,
       { headers }
     );
     return data;

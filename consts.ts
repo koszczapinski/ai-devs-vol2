@@ -4,6 +4,7 @@ export const OPENAI_COMPLETIONS_API_ENDPOINT =
   "https://api.openai.com/v1/chat/completions";
 export const OPENAI_EMBEDDINGS_API_ENDPOINT =
   "https://api.openai.com/v1/embeddings";
+  export const OPENAI_TRANSCRIPTIONS_API_ENDPOINT = 'https://api.openai.com/v1/audio/transcriptions'
 
 export const BLOGGER_TASK_SYSTEM_PROMPT =
   "Wygeneruj treść sekcji bloga na podstawie tytułu podanego przez użytkownika. Maksymalnie 5 zdań.";
