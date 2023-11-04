@@ -7,7 +7,6 @@ const DOWNLOADED_FILE_NAME = "file-for-transcription.mp3";
 const token = await getToken("whisper");
 const { msg } = await getTask<TaskResponse & {hint: string}>(token);
 
-console.log(msg);
 const file = Bun.file(DOWNLOADED_FILE_NAME);
 const fileExist = await file.exists();
 if (fileExist) {
@@ -15,7 +14,6 @@ if (fileExist) {
 }
 
 const fileUrl = msg.match(/(https?:\/\/[^\s]+)/g)[0];
-console.log(fileUrl);
 const response = await fetch(fileUrl);
 await Bun.write(DOWNLOADED_FILE_NAME, response);
 

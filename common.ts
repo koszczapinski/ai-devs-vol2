@@ -66,8 +66,7 @@ export async function sendAnswer(token: string, answer: unknown) {
 }
 
 const headers = {
-  //"Content-Type": "application/json",
-  "Content-Type": "multipart/form-data",
+  "Content-Type": "application/json",
   Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
 };
 
@@ -139,7 +138,12 @@ export async function openAITranscription(fileName: string): Promise<string> {
     const { data } = await axios.post(
       OPENAI_TRANSCRIPTIONS_API_ENDPOINT,
       formData,
-      { headers }
+      {
+        headers: {
+          ...headers,
+          'Content-Type': 'multipart/form-data'
+        }
+      }
     );
     return data.text;
   } catch (error) {
