@@ -3,6 +3,7 @@ import {
   OPENAI_COMPLETIONS_API_ENDPOINT,
   OPENAI_EMBEDDINGS_API_ENDPOINT,
   OPENAI_MODERTATIONS_API_ENDPOINT,
+  OPENAI_TRANSCRIPTIONS_API_ENDPOINT,
 } from "./consts";
 import { TaskResponse, TokenResponse } from "./types";
 
@@ -127,4 +128,26 @@ export async function openAIEmbedding(input: string) {
   } catch (error) {
     console.error(error);
   }
+}
+
+export async function openAITranscription(fileName: string): Promise<string> {
+  const formData = new FormData();
+  formData.append("file", Bun.file(fileName));
+  formData.append("model", 'whisper-1');
+  try {
+    const { data } = await axios.post(
+      OPENAI_TRANSCRIPTIONS_API_ENDPOINT,
+      formData,
+      {
+        headers: {
+          ...headers,
+          'Content-Type': 'multipart/form-data'
+        }
+      }
+    );
+    return data.text;
+  } catch (error) {
+    console.error(error);
+  }
+  return "";
 }
