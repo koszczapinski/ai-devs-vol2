@@ -1,11 +1,5 @@
-import axios from "../../axiosInterceptor";
-
-export type ArchiveLink = {
-  title: string;
-  url: string;
-  info: string;
-  date: string;
-};
+import axios from "./axiosInterceptor";
+import { ArchiveLink } from "./types";
 
 export async function getArchiveLinks(
   url: string,

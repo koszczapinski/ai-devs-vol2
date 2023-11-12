@@ -2,10 +2,10 @@ import { OpenAIEmbeddings } from "langchain/embeddings/openai";
 import { QdrantClient } from "@qdrant/js-client-rest";
 import { v4 as uuidv4 } from "uuid";
 
-import { getTask, getToken, sendAnswer } from "../../common";
-import { TaskResponse } from "../../types";
+import { getTask, getToken, sendAnswer } from "../common";
+import { TaskResponse } from "../types";
 
-import { getArchiveLinks } from "./helpers";
+import { getArchiveLinks } from "../helpers";
 
 const EXTERNAL_DATA_URL = "https://unknow.news/archiwum.json";
 const COLLECTION_NAME = "unknow_news_archive";
