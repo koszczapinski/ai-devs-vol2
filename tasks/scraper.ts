@@ -9,7 +9,7 @@ const { input: pageUrl, question } = await getTask<
 >(token);
 
 const pageContent = await getPageContent(pageUrl);
-const strippedPageContent = stripHtml(pageContent);
+const strippedPageContent = stripHtml(pageContent || "");
 
 if (strippedPageContent.includes("server error X_X")) {
   throw new Error("The server returned an error: 'server error X_X'");

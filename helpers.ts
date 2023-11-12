@@ -11,6 +11,9 @@ export async function getPageContent(
   const page = await browser.newPage();
 
   for (let i = 0; i < retries; i++) {
+    console.log(
+      `Attempt ${i + 1} of ${retries} to get page content from ${url}`
+    );
     try {
       await page.goto(url, { timeout });
       return await page.content();
