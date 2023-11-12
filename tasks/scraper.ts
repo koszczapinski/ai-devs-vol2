@@ -1,13 +1,7 @@
-import {
-  getPageContent,
-  getTask,
-  getToken,
-  openAICompletion,
-  sendAnswer,
-  stripHtml,
-} from "../common";
-import { SCRAPER_TASK_SYSTEM_PROMPT } from "../consts";
+import { getTask, getToken, openAICompletion, sendAnswer } from "../common";
+import { getPageContent, stripHtml } from "../helpers";
 import { TaskResponse } from "../types";
+import { SCRAPER_TASK_SYSTEM_PROMPT } from "../consts";
 
 const token = await getToken("scraper");
 const { input: pageUrl, question } = await getTask<
@@ -15,7 +9,7 @@ const { input: pageUrl, question } = await getTask<
 >(token);
 
 const pageContent = await getPageContent(pageUrl);
-const strippedPageContent = stripHtml(pageContent);
+const strippedPageContent = stripHtml(pageContent || "");
 
 if (strippedPageContent.includes("server error X_X")) {
   throw new Error("The server returned an error: 'server error X_X'");
