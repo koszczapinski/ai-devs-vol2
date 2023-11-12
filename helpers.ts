@@ -1,6 +1,6 @@
 import puppeteer from "puppeteer";
 import axios from "./axiosInterceptor";
-import { ArchiveLink } from "./types";
+import { ArchiveLink, Person } from "./types";
 
 export async function getPageContent(url: string, timeout = 60000) {
   const browser = await puppeteer.launch();
@@ -30,6 +30,14 @@ export async function getArchiveLinks(
   url: string,
   limit = 300
 ): Promise<ArchiveLink[]> {
+  const { data } = await axios.get(url);
+  return data.slice(0, limit);
+}
+
+export async function getAllPeople(
+  url: string,
+  limit = 300
+): Promise<Person[]> {
   const { data } = await axios.get(url);
   return data.slice(0, limit);
 }
