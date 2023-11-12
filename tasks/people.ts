@@ -1,6 +1,5 @@
 import { getTask, getToken, openAICompletion, sendAnswer } from "../common";
 import { TaskResponse } from "../types";
-
 import { getAllPeople } from "../helpers";
 
 const token = await getToken("people");
@@ -26,16 +25,17 @@ AI: {imie: "Krystyna", nazwisko: "Kowalska"}};
 Odpowiedź zawsze zwracaj w formacie JSON
 `;
 
-const personName = await openAICompletion(getNamePrompt, " ");
+const personName = await openAICompletion(getNamePrompt, " ", {
+  model: "gpt-4",
+});
 
 const { imie, nazwisko } = JSON.parse(personName.choices[0].message.content);
 
 const foundPerson = people.find(
-  (obj) => obj.imie === imie && obj.nazwisko === nazwisko
+  (person) => person.imie === imie && person.nazwisko === nazwisko
 );
 
 if (foundPerson) {
-  /// open ai completion
   const getAnswerPrompt = `Zwróć odpowiedź na pytanie dotyczące ${imie} ${nazwisko}, używając poniszych informacji na jej temat.
 
   ### pytanie:
