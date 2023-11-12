@@ -31,6 +31,6 @@ export const SCRAPER_TASK_SYSTEM_PROMPT = (
 export const WHOAMI_TASK_USER_PROMPT = (hints: string[]) =>
   `Each time you call up this task, I will return a trivia item about a certain person (the person does not change). Guess who I am:
   ### hints
-  ${hints.join(".")}. "
+  ${hints.map((hint) => `* ${hint}`).join("\n")}
   ###
   Return only the name and surname of this person. Answer only if you are sure, and if not return: "I don't know."`;
