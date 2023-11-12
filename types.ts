@@ -8,3 +8,10 @@ export type TaskResponse = {
   code: number;
   msg: string;
 };
+
+export type ArchiveLink = {
+  title: string;
+  url: string;
+  info: string;
+  date: string;
+};
