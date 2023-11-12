@@ -1,13 +1,7 @@
-import {
-  getPageContent,
-  getTask,
-  getToken,
-  openAICompletion,
-  sendAnswer,
-  stripHtml,
-} from "../common";
-import { SCRAPER_TASK_SYSTEM_PROMPT } from "../consts";
+import { getTask, getToken, openAICompletion, sendAnswer } from "../common";
+import { getPageContent, stripHtml } from "../helpers";
 import { TaskResponse } from "../types";
+import { SCRAPER_TASK_SYSTEM_PROMPT } from "../consts";
 
 const token = await getToken("scraper");
 const { input: pageUrl, question } = await getTask<
