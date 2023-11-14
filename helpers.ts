@@ -41,3 +41,17 @@ export async function getAllPeople(
   const { data } = await axios.get(url);
   return data.slice(0, limit);
 }
+
+export async function getCountryPopulation(country: string): Promise<number> {
+  const { data } = await axios.get(
+    `https://restcountries.com/v3.1/name/${country}`
+  );
+  return data[0].population;
+}
+
+export async function getCurrencyExchangeRate(code: string): Promise<number> {
+  const { data } = await axios.get(
+    `http://api.nbp.pl/api/exchangerates/rates/A/${code}/?format=json`
+  );
+  return data.rates[0].mid;
+}
