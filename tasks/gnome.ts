@@ -24,6 +24,5 @@ const response = await openai.chat.completions.create({
     },
   ],
 });
-console.log(response.choices[0].message.content);
 
 await sendAnswer(token, response.choices[0].message.content);
